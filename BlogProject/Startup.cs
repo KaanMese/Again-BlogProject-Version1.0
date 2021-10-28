@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using BlogProject.Models.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlogProject.Models.Identity;
 
 namespace BlogProject
 {
@@ -23,6 +26,15 @@ namespace BlogProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<BlogDbContext>(option =>
+            {
+
+                option.UseSqlServer(Configuration.GetConnectionString("BlogConnection"));
+            });
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<BlogDbContext>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -17,6 +17,15 @@
     <!-- Theme CSS -->
     <link id="theme-style" rel="stylesheet" href="assets/css/theme-1.css">
 
+    <style>
+
+        #ShortMe {
+            height: 44px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -35,7 +44,7 @@
                     <div class="profile-section pt-3 pt-lg-0">
                         <img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/profile.png" alt="image">
 
-                        <div class="bio mb-3">Merhaba, Benim Adım Kaan Meşe. Yazılımı hayatın temeli yapmaya çalışan masum köylü :D .<br><a asp-action="Index" asp-controller="AboutMe">Find out more about me</a></div><!--//bio-->
+                        <div class="bio mb-3" id="ShortMe">Merhaba, Benim Adım Kaan Meşe. Yazılımı hayatın temeli yapmaya çalışan masum köylü :D .aksjdilaksjdilşasi ,dlşkasi,dlşka, slkd,aslşkd,şalskdişaskldilş<br><a asp-action="Index" asp-controller="AboutMe">Find out more about me</a></div><!--//bio-->
                         <ul class="social-list list-inline py-3 mx-auto">
                             <li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>
                             <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
@@ -114,6 +123,11 @@
 
         $(document).ready(function () {
             // setTimeout komutu ile script komutlarınızı belirli bir süre bekletip çalıştırabilirsiniz....
+
+            $("#ShortMe").click(function () {
+                $("#ShortMe").height(70);
+
+            });
             setTimeout(function () {
 
                 $("#dvPage").slideDown();
