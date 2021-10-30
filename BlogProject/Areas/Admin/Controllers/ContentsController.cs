@@ -12,22 +12,23 @@ namespace BlogProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize] // sadece rolundekiler üyeler authorize olabilir
-    public class CategoriesController : Controller
+    public class ContentsController : Controller
     {
         private readonly BlogDbContext _context;
 
-        public CategoriesController(BlogDbContext context)
+        public ContentsController(BlogDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Categories
+        // GET: Admin/Contents
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            var blogDbContext = _context.Contents.Include(c => c.Category).Include(c => c.User);
+            return View(await blogDbContext.ToListAsync());
         }
 
-        // GET: Admin/Categories/Details/5
+        // GET: Admin/Contents/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +36,45 @@ namespace BlogProject.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var content = await _context.Contents
+                .Include(c => c.Category)
+                .Include(c => c.User)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (category == null)
+            if (content == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(content);
         }
 
-        // GET: Admin/Categories/Create
+        // GET: Admin/Contents/Create
         public IActionResult Create()
         {
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name");
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
-        // POST: Admin/Categories/Create
+        // POST: Admin/Contents/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("ID,Title,Text,CategoryID")] Content content)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(content);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name", content.CategoryID);
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", content.UserID);
+            return View(content);
         }
 
-        // GET: Admin/Categories/Edit/5
+        // GET: Admin/Contents/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +82,24 @@ namespace BlogProject.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var content = await _context.Contents.FindAsync(id);
+            if (content == null)
             {
                 return NotFound();
             }
-            return View(category);
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name", content.CategoryID);
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", content.UserID);
+            return View(content);
         }
 
-        // POST: Admin/Categories/Edit/5
+        // POST: Admin/Contents/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Text,CategoryID")] Content content)
         {
-            if (id != category.ID)
+            if (id != content.ID)
             {
                 return NotFound();
             }
@@ -99,12 +108,12 @@ namespace BlogProject.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(content);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.ID))
+                    if (!ContentExists(content.ID))
                     {
                         return NotFound();
                     }
@@ -115,10 +124,12 @@ namespace BlogProject.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name", content.CategoryID);
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", content.UserID);
+            return View(content);
         }
 
-        // GET: Admin/Categories/Delete/5
+        // GET: Admin/Contents/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +137,32 @@ namespace BlogProject.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var content = await _context.Contents
+                .Include(c => c.Category)
+                .Include(c => c.User)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (category == null)
+            if (content == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(content);
         }
 
-        // POST: Admin/Categories/Delete/5
+        // POST: Admin/Contents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
+            var content = await _context.Contents.FindAsync(id);
+            _context.Contents.Remove(content);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool ContentExists(int id)
         {
-            return _context.Categories.Any(e => e.ID == id);
+            return _context.Contents.Any(e => e.ID == id);
         }
     }
 }
