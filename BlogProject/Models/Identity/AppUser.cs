@@ -10,5 +10,8 @@ namespace BlogProject.Models.Identity
     // public class Appuser :D IdentityUser // default key string oluştutacakttır.. 
     public class AppUser : IdentityUser<int>
     {
+        public string FullName { get; set; }
+        public string Gender { get; set; }
+
     }
 }
