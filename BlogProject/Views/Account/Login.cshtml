@@ -1,4 +1,4 @@
-﻿
+﻿@model AccountUserVM
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_AnonymousLayout.cshtml";
@@ -8,19 +8,29 @@
 
 <div class="card">
     <div class="card-body login-card-body">
-        <p class="login-box-msg">Sign in to start your session</p>
+        <p class="login-box-msg">Oturum Aç</p>
 
-        <form action="../../index3.html" method="post">
+        @if (ViewData["Mesaj"] != null)
+        {
+            <div class="alert alert-info">
+                @ViewData["Mesaj"]
+            </div>
+        }
+
+        <form asp-action="Login" asp-controller="Account" method="post">
+
+            <span asp-validation-for="@Model.Email"></span>
             <div class="input-group mb-3">
-                <input type="email" class="form-control" placeholder="Email">
+                <input asp-for="@Model.Email" type="email" class="form-control" placeholder="Email">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
                     </div>
                 </div>
             </div>
+            <span asp-validation-for="@Model.Password"></span>
             <div class="input-group mb-3">
-                <input type="password" class="form-control" placeholder="Password">
+                <input asp-for="@Model.Password" type="password" class="form-control" placeholder="Password">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
@@ -59,8 +69,13 @@
             <a href="forgot-password.html">I forgot my password</a>
         </p>
         <p class="mb-0">
-            <a asp-action="Register" asp-controller="Account" class="text-center">Register a new membership</a>
+            <a asp-action="Register" asp-controller="Account" class="text-center">Yeni Hesap Oluştur.</a>
         </p>
     </div>
     <!-- /.login-card-body -->
 </div>
+
+@section ValidationScripts{
+    @Html.Partial("_ValidationScriptsPartial")
+}
+

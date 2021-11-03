@@ -32,7 +32,15 @@
     <div id="dvPage" style="display:none;">
 
         <header class="header text-center">
-            <h1 class="blog-name pt-lg-4 mb-0"><a asp-action="Index" asp-controller="Home">Kaan'ın Bloğu</a></h1>
+            <h1 class="blog-name pt-lg-4 mb-0"><a asp-action="Index" asp-controller="Home">
+                   
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <span>Hoşgeldin </span> @User.Identity.Name
+                }
+
+                   </a>
+            </h1>
 
             <nav class="navbar navbar-expand-lg navbar-dark">
 
@@ -42,13 +50,25 @@
 
                 <div id="navigation" class="collapse navbar-collapse flex-column">
                     <div class="profile-section pt-3 pt-lg-0">
-                        <img class="profile-image mb-3 rounded-circle mx-auto" src="/assets/images/profile.png" alt="image">
-
-                        <div class="bio mb-3" id="ShortMe">
-                            <br><a asp-action="Index" asp-controller="AboutMe">Merhaba, Ben Kaan :D  Devamı için Tıkla..</a>
+                        
+                    
+                    <img class="profile-image mb-3 rounded-circle mx-auto" src="/assets/images/profile.png" alt="image">
+                    <br />
+                    <div class="bio mb-3" @*id="ShortMe"*@>
+                        <br><a asp-action="Index" asp-controller="AboutMe">Merhaba, Ben Kaan :D  Devamı için Tıkla..</a>
+                        <br />
+                        @if (User.Identity.IsAuthenticated)
+                         {
+                            <a asp-action="UpdateProfile" asp-controller="Account">Profil Resmini Güncelle</a>
                             <br />
+                            <a asp-action="LogOut" asp-controller="Account">Çıkış Yap</a>
+                         }
+                        else
+                        {
                             <a asp-action="Login" asp-controller="Account">Giriş Yap veya Kayıt Ol..</a>
-                        </div><!--//bio-->
+                        }
+
+                    </div><!--//bio-->
                        
                         <ul class="social-list list-inline py-3 mx-auto">
                             <li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>

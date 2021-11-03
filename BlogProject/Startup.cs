@@ -16,6 +16,7 @@ namespace BlogProject
 {
     public class Startup
     {
+        //IWebHostEnvironment env;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
