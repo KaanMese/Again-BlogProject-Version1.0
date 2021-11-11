@@ -1,0 +1,38 @@
+﻿body {
+}
+
+
+#MyPanel {
+    
+    position:fixed; /* saydfada sabitliyoruz.*/
+    top:200px;
+    right:-210px;
+    width:240px;
+
+}
+
+#Kulakcik {
+    background-color: #223142;
+    width: 40px;
+    height: 40px;
+    margin-top:20px;
+    float:left;
+    cursor:pointer;
+    color:white;
+    font-weight:bold;
+    text-align:center;
+    font-size:20px;
+}
+
+#Menu {
+    background-color: #223142;
+    width: 200px;
+    float: left;
+    padding-left:50px;
+}
+#Menu a{
+    color:white;
+}
+#MenuClose{
+    cursor:pointer;
+}

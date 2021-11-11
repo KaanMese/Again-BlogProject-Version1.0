@@ -119,7 +119,12 @@ namespace BlogProject.Controllers
         [HttpPost]
         public IActionResult UpdatePhoto(IFormFile file)
         {
-            var path = Path.Combine(environment.WebRootPath, "UploadProfilePicture/")+file.FileName;
+
+            string fileName = Guid.NewGuid().ToString();  // guid bir değer veriyoruzz...
+            string extension = Path.GetExtension(file.FileName);// dosya ismindedn uzantıyı buluyoruz.
+            string newFileName = fileName + extension;
+
+            var path = Path.Combine(environment.WebRootPath, "UploadProfilePicture/")+newFileName;
             FileStream st = new FileStream(path, FileMode.Create);
             file.CopyTo(st);
 
@@ -130,7 +135,21 @@ namespace BlogProject.Controllers
             return View("UpdateProfile");
         }
 
+        public ActionResult ProfilePath()
+        {
+            string filePicturePath = "/assets/images/profile.png";
 
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = blogDbContext.Users.FirstOrDefault(c => c.Email == User.Identity.Name);
+                if (user.PicturePath!=null)
+                {
+                 filePicturePath="/UploadProfilePicture/" +  user.PicturePath;
+                }   
+            }
+            ViewData["photoPath"] = filePicturePath;
+            return PartialView("_profilePicture");
+        }
 
 
 

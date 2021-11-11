@@ -1,0 +1,16 @@
+﻿@model List<Category>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<ul class="navbar-nav">
+
+    @foreach (var item in Model)
+    {
+        <li class="nav-item">
+            <a class="nav-link"
+               href="#">@item.Name</a>
+        </li>
+    }
+</ul>
