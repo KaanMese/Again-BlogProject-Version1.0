@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BlogProject.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
+using BlogProject.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace BlogProject.Areas.Admin.Controllers
 {
@@ -16,9 +18,12 @@ namespace BlogProject.Areas.Admin.Controllers
     {
         private readonly BlogDbContext _context;
 
-        public ContentsController(BlogDbContext context)
+        public UserManager<AppUser> _userManager;
+
+        public ContentsController(BlogDbContext context,UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Admin/Contents
@@ -65,12 +70,23 @@ namespace BlogProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                // context sınıfı üzeri,nden kullanıcı bilgilerini çektik.
+                
+                //    AppUser user = _context.Users.FirstOrDefault(c => c.UserName == User.Identity.Name);
+
+                AppUser user =await _userManager.FindByNameAsync(User.Identity.Name);
+                content.UserID = user.Id; //content 'in UserId alanına user'ın Id sin, set ediyoruz.
+
                 _context.Add(content);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            //new SelectList(_context.Categories, "ID", "Name", content.CategoryID);
+
             ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name", content.CategoryID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", content.UserID);
+
+            //ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", content.UserID);
             return View(content);
         }
 

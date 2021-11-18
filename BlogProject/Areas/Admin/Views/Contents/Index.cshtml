@@ -15,9 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Text)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
@@ -33,9 +33,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Text)
-            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem =>Html.Raw(item.Text))
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>

@@ -28,7 +28,7 @@
                 cursor: pointer;
             }
         </style>*@
-
+    
 </head>
 
 <body>
@@ -145,6 +145,12 @@
             </div><!--//panel-inner-->
         </div><!--//configure-panel-->
 
+        @*<style>
+            #MenuClose{
+                color:white;
+            }
+        </style>*@
+
         <!-- MyPanel-->
         <div id="MyPanel">
             <div id="Kulakcik" >
@@ -152,7 +158,8 @@
             </div>
             <div id="Menu">
                 <div id="MenuClose">
-                    <b class="close"><i class="fa fa-times-circle"></i></b>
+                    <a class="close"><i class="fa fa-times-circle"></i></a>
+                    <br />
                 </div>
                 @await Component.InvokeAsync("Categories")
             </div>

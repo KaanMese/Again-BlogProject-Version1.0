@@ -12,14 +12,17 @@ namespace BlogProject.Models.Entities
         
         public int ID { get; set; }
         [Required]
+        [Display(Name ="Başlık")]
         public string Title { get; set; }
         [Required]
+        [Display(Name ="İçerik")]
         public string Text { get; set; }
         [ScaffoldColumn(false)] // scafolding template oluştururken view'da oluşmasını engeller
         public DateTime CreDate { get; set; }
         [ScaffoldColumn(false)]
         public int ViewCount { get; set; }
         [Required]
+        [Display(Name ="Kategori")]
         public int CategoryID { get; set; }
         public virtual Category Category { get; set; }
         [Required]
