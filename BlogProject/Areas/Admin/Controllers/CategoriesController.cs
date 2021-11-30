@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace BlogProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize] // sadece rolundekiler üyeler authorize olabilir
+    [Authorize] // Sadece üyeler autorize olabilir
     public class CategoriesController : Controller
     {
         private readonly BlogDbContext _context;
@@ -52,8 +52,8 @@ namespace BlogProject.Areas.Admin.Controllers
         }
 
         // POST: Admin/Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,Description")] Category category)
@@ -84,8 +84,8 @@ namespace BlogProject.Areas.Admin.Controllers
         }
 
         // POST: Admin/Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description")] Category category)

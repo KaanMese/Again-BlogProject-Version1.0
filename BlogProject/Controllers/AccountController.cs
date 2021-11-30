@@ -1,33 +1,35 @@
-﻿using BlogProject.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using BlogProject.Models;
 using BlogProject.Models.Entities;
 using BlogProject.Models.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlogProject.Controllers
 {
     public class AccountController : Controller
     {
-        UserManager<AppUser> userManager;
-        RoleManager<AppRole> roleManager;
-        SignInManager<AppUser> signInManager;
+        UserManager<AppUser> userManager; // kullanıcı yönetimi  UserTablo
+        RoleManager<AppRole> roleManager; // role yönetimi // Role tablosu
+        SignInManager<AppUser> signInManager; // oturum yönetimi...
         IWebHostEnvironment environment;
         BlogDbContext blogDbContext;
-        public AccountController(UserManager<AppUser> um,RoleManager<AppRole> rl,SignInManager<AppUser> sm,IWebHostEnvironment whe,BlogDbContext bdc)
+
+        public AccountController(UserManager<AppUser> um, RoleManager<AppRole> rl, SignInManager<AppUser> sm, IWebHostEnvironment whe, BlogDbContext bdc)
         {
-            userManager = um;
+            userManager = um; // intance runtime'da startup dosyasındaki ConfigureServices meotundan alınarak otomatik olarak buraya gönderilir.. Bunun nedeni .net core'da dependency injection ve IOC mantığı vardır.. 
             roleManager = rl;
             signInManager = sm;
             environment = whe;
             blogDbContext = bdc;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -37,100 +39,104 @@ namespace BlogProject.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(AccountUserVM model)
         {
-            //AppUser user = new AppUser();
-            //user.Email = model.Email;
-            //user.UserName = model.Email;
 
-            //modelden gelen email ile kullanıcı buluyoruz
-            AppUser user = await userManager.FindByEmailAsync(model.Email); //email ile kullanıcı buluyoruz.
+            // modelden gelen email ile kullanıcı buluyoruz...
+            AppUser user = await userManager.FindByEmailAsync(model.Email); // email ile kullanıcı buluyoruz...
 
-            if (user==null)
+            if (user == null)
             {
                 ViewData["Mesaj"] = "Email adresiniz hatalı";
+                return View();
             }
-            var result=await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
-            if (result.Succeeded) //Başarılı ise ...
+            if (result.Succeeded) // Başarılıysa...
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home"); // anasayfaya yönlendir..
             }
             else
             {
-                ViewData["Mesaj"] = "Hatalı şifre";
+                ViewData["Mesaj"] = "Şifreniz hatalı.";
             }
 
             return View();
-
         }
 
         public IActionResult Register()
         {
             return View();
-            
         }
 
 
         [HttpPost]
-        public async Task< IActionResult> Register(AccountUserVM model)
+        public async Task<IActionResult> Register(AccountUserVM model)
         {
-            if (!await roleManager.RoleExistsAsync("user")) // veritabanında kontrol eder.
+
+            // Rol ekleyeceğiz..
+            if (!await roleManager.RoleExistsAsync("user")) // user rolü var mı?? veritabanından kontrol eder...
             {
                 AppRole role = new AppRole();
                 role.Name = "user";
 
-                await roleManager.CreateAsync(role);  // veri tabanına role ekle ..
+                await roleManager.CreateAsync(role); // veritabanına rolü ekle.... //AspNetRoles tablosuna kayıt atar..
             }
+
             AppUser user = new AppUser();
             user.UserName = model.Email;
             user.Email = model.Email;
             user.FullName = model.FullName;
 
-            var result = await userManager.CreateAsync(user, model.Password); // kulanıcıyı veritabanına ekle
-           
+            var result = await userManager.CreateAsync(user, model.Password); // kullanıcıyı veritbanaına ekle... //AspNetUsers tablosuna kayıt atar..
 
-
-            if (result.Succeeded) // kayıt yapıldıysa 
+            if (result.Succeeded) // kayıt yapıldıysa....
             {
-                var roleResult = await userManager.AddToRoleAsync(user, "user"); // kullanıcıya rol ekle 
+                var roleResult = await userManager.AddToRoleAsync(user, "user"); // Kullanıcıya rol ekle.... //AspNetUserROles tablosuna kayıt atar...
 
-                ViewData["Mesaj"] = "Kayıt işleminiz başaralı.";
+                // View'a mesaj gönderiyoruz..
+                // ViewData => Controllerden view'a veya viewdan view veri göndermek için kullanılır..Sadece bir sonraki request için çalışır..
+                ViewData["Mesaj"] = "Kayıt İşleminiz Başarılı.";
             }
             else
             {
-                ViewData["Mesaj"] = "Kayıt işleminiz yapılmadı.Litfen bilgilerini kontrol ediniz";
+                ViewData["Mesaj"] = "Kayıt işleminiz yapılamadı.. Lütfen bilgilerinizi kontrol ediniz...";
             }
-
-
             return View();
         }
 
         public async Task<IActionResult> LogOut()
         {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home"); // anasayfaya yönlendir
+            await signInManager.SignOutAsync(); // kullanıcı oturumunu kapat
+            return RedirectToAction("Index", "Home"); // anasayfaya yönlendir...
         }
+
         public IActionResult UpdateProfile()
         {
             return View();
         }
+
+        // action'a formdan dosya verisi göndercekseniz parametre tipiniz IFormFile olmalıdır
         [HttpPost]
         public IActionResult UpdatePhoto(IFormFile file)
         {
 
-            string fileName = Guid.NewGuid().ToString();  // guid bir değer veriyoruzz...
-            string extension = Path.GetExtension(file.FileName);// dosya ismindedn uzantıyı buluyoruz.
+            string fileName = Guid.NewGuid().ToString();  // guid bir değer veriyirouz
+            string extension = Path.GetExtension(file.FileName); // dosya isminden uzantıyı buluyoruz...
             string newFileName = fileName + extension;
 
-            var path = Path.Combine(environment.WebRootPath, "UploadProfilePicture/")+newFileName;
+            // dosyayı fiziki klasöre yazıyoruz...
+            var path = Path.Combine(environment.WebRootPath, "UploadProfilePicture/") + newFileName;
             FileStream st = new FileStream(path, FileMode.Create);
             file.CopyTo(st);
 
+            // Dosyanın adını kullanıcın PicturePath alanına yazıyoruz...
             AppUser user = blogDbContext.Users.FirstOrDefault(c => c.Email == User.Identity.Name);
             user.PicturePath = file.FileName;
             blogDbContext.SaveChanges();
+
 
             return View("UpdateProfile");
         }
@@ -142,16 +148,14 @@ namespace BlogProject.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = blogDbContext.Users.FirstOrDefault(c => c.Email == User.Identity.Name);
-                if (user.PicturePath!=null)
+                if (user.PicturePath != null) // profil resmi yüklediyse....
                 {
-                 filePicturePath="/UploadProfilePicture/" +  user.PicturePath;
-                }   
+                    filePicturePath = "UploadProfilePicture/" + user.PicturePath;
+                }
             }
+
             ViewData["photoPath"] = filePicturePath;
             return PartialView("_profilePicture");
         }
-
-
-
     }
 }

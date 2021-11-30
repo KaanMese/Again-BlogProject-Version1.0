@@ -16,74 +16,64 @@
 
     <!-- Theme CSS -->
     <link id="theme-style" rel="stylesheet" href="/assets/css/theme-1.css">
+    <link rel="stylesheet" href="~/css/mySite.css" />
 
-
-    <link rel="stylesheet" href="~/css/mySite.css"/>
-
-    @*<style>
-
-            #ShortMe {
-                height: 50px;
-                overflow: hidden;
-                cursor: pointer;
-            }
-        </style>*@
-    
 </head>
 
 <body>
+
     <div id="dvPage" style="display:none;">
-
         <header class="header text-center">
-            <h1 class="blog-name pt-lg-4 mb-0"><a asp-action="Index" asp-controller="Home">
-                   
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <span>Hoşgeldin </span> @User.Identity.Name
-                }
+            <h1 class="blog-name pt-lg-4 mb-0">
+                <a asp-action="Index" asp-controller="Home">
 
-                   </a>
+                    @if (User.Identity.IsAuthenticated) // kullanıcı oturum açtıysa
+                    {
+                        <span>Hoş geldin</span> @User.Identity.Name
+                    }
+                </a>
             </h1>
 
             <nav class="navbar navbar-expand-lg navbar-dark">
-
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div id="navigation" class="collapse navbar-collapse flex-column">
                     <div class="profile-section pt-3 pt-lg-0">
-                    
-                    @*<img class="profile-image mb-3 rounded-circle mx-auto" src="/assets/images/profile.png" alt="image">*@
 
-                    @await Component.InvokeAsync("ProfilePhoto")
 
-                    <br />
-                    <div class="bio mb-3" @*id="ShortMe"*@>
-                        <br><a asp-action="Index" asp-controller="AboutMe">Merhaba, Ben Kaan :D  Devamı için Tıkla..</a>
+
+                        @*<img class="profile-image mb-3 rounded-circle mx-auto" src="/assets/images/kaan.jpg" alt="image">*@
+
+                        <!-- Oluşturulan componenti çağırıypruz....-->
+                        @*@{ await Component.InvokeAsync("ProfilePhoto")}*@
+
+                        @await Component.InvokeAsync("ProfilePhoto")
+
                         <br />
-                        @if (User.Identity.IsAuthenticated)
-                         {
-                            <a asp-action="UpdateProfile" asp-controller="Account">Profil Resmini Güncelle</a>
+                        <div class="bio mb-3">
+                            Selam Ben Kaan <br><a asp-action="Index" asp-controller="AboutMe">Benimle ilgili bişeyler öğrenmek için tıkla :D</a>
                             <br />
-                            <a asp-action="LogOut" asp-controller="Account">Çıkış Yap</a>
-                         }
-                        else
-                        {
-                            <a asp-action="Login" asp-controller="Account">Giriş Yap veya Kayıt Ol..</a>
-                        }
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-action="UpdateProfile" asp-controller="Account">Profil Resmini Güncelle</a>
+                                <br />
+                                <a asp-action="LogOut" asp-controller="Account">Çıkış Yap</a>
+                            }
+                            else
+                            {
+                                <a asp-action="Login" asp-controller="Account">Giriş Yap veya Kayıl Ol</a>
+                            }
+                        </div><!--//bio-->
 
-                    </div><!--//bio-->
-                       
                         <ul class="social-list list-inline py-3 mx-auto">
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>
-                            <li class="list-inline-item"><a href="https://www.linkedin.com/in/kaan-me%C5%9Fe-b1b203213/"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
+                            @*<li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>*@
+                            <li class="list-inline-item"><a href="https://www.linkedin.com/in/kaan-meşe-b1b203213"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
                             <li class="list-inline-item"><a href="https://github.com/KaanMese"><i class="fab fa-github-alt fa-fw"></i></a></li>
                             <li class="list-inline-item"><a href="https://stackoverflow.com/users/17292865/kaanmese"><i class="fab fa-stack-overflow fa-fw"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-codepen fa-fw"></i></a></li>
+                            @*<li class="list-inline-item"><a href="#"><i class="fab fa-codepen fa-fw"></i></a></li>*@
                         </ul><!--//social-list-->
                         <hr>
-
                     </div><!--//profile-section-->
 
                     <ul class="navbar-nav flex-column text-left">
@@ -92,38 +82,31 @@
                         </li>
 
                         <li class="nav-item">
-                            @*<a class="nav-link" asp-action="Index" asp-controller="Posts"><i class="fas fa-bookmark fa-fw mr-2"></i>Yazılarım...</a>*@
-                            <a id="BlogYazilarim" class="nav-link"><i class="fas fa-bookmark fa-fw mr-2"></i>Yazılarım...</a>
-
-                       
+                            @*<a class="nav-link" asp-action="Index" asp-controller="Posts"><i class="fas fa-bookmark fa-fw mr-2"></i>Yazılarım</a>*@
+                            <a id="BlogYazilarim" href="#" class="nav-link"><i class="fas fa-bookmark fa-fw mr-2"></i>Yazılarım</a>
                         </li>
+
 
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index","AboutMe")"><i class="fas fa-user fa-fw mr-2"></i>Hakkımda</a>
+                            <a class="nav-link" href="@Url.Action("Index", "AboutMe")"><i class="fas fa-user fa-fw mr-2"></i>Hakkımda</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="Home" asp-area="Admin"><i class="fas fa-user fa-fw mr-2"></i>Yönetim Paneline GİT..</a>
-
-                            @*<a href="@Url.Action("Index","Home",new {area="Admin" })">Yönetim Paneline GİT 2..</a>*@
+                            <a class="nav-link" asp-action="Index" asp-controller="Home" asp-area="Admin"><i class="fas fa-user fa-fw mr-2"></i> Yönetim Paneline Git...</a>
+                            @*<a href="@Url.Action("Index", "Home", new { area="Admin" })">Yönetim Paneli 2</a>*@
                         </li>
-
                     </ul>
-
                     <div class="my-2 my-md-3">
-                        <a class="btn btn-primary" href="https://www.linkedin.com/in/kaan-me%C5%9Fe-b1b203213/" target="_blank">Get in Touch</a>
+                        <a class="btn btn-primary" asp-action="Index" asp-controller="Home" target="_blank">Get in Touch</a>
                     </div>
                 </div>
             </nav>
         </header>
-
         <div class="main-wrapper">
 
-
+            <div class="alert" id="dvSiteMessage" style="display:none">
+            </div>
 
             @RenderBody()
-
-
 
         </div><!--//main-wrapper-->
         <!-- *****CONFIGURE STYLE (REMOVE ON YOUR PRODUCTION SITE)****** -->
@@ -144,28 +127,27 @@
                 <a id="config-close" class="close" href="#"><i class="fa fa-times-circle"></i></a>
             </div><!--//panel-inner-->
         </div><!--//configure-panel-->
+        <!--MyPanel-->
 
-        @*<style>
-            #MenuClose{
-                color:white;
-            }
-        </style>*@
-
-        <!-- MyPanel-->
         <div id="MyPanel">
-            <div id="Kulakcik" >
+            <div id="Kulakcik">
                 <i class="fas fa-cog fa-spin mx-auto" data-fa-transform="down-6"></i>
             </div>
             <div id="Menu">
                 <div id="MenuClose">
-                    <a class="close"><i class="fa fa-times-circle"></i></a>
+                    <a class="close" href="#"><i class="fa fa-times-circle"></i></a>
                     <br />
                 </div>
-                @await Component.InvokeAsync("Categories")
+                <div id="navigation">
+                    @await Component.InvokeAsync("Categories")
+                </div>
+
             </div>
         </div>
 
+
     </div>
+
     <!-- Javascript -->
     <script src="/assets/plugins/jquery-3.3.1.min.js"></script>
     <script src="/assets/plugins/popper.min.js"></script>
@@ -174,21 +156,22 @@
     <!-- Style Switcher (REMOVE ON YOUR PRODUCTION SITE) -->
     <script src="/assets/js/demo/style-switcher.js"></script>
 
+
+    @if (IsSectionDefined("PageScript"))
+    {
+        @RenderSection("PageScript") <!--pagescript sectionndaki pathleri render...-->
+    }
+
+
+
     <script>
 
-
         $(document).ready(function () {
-            // setTimeout komutu ile script komutlarınızı belirli bir süre bekletip çalıştırabilirsiniz....
-
-            //$("#ShortMe").click(function () {
-            //    $("#ShortMe").height(70);
-
-            //});
+            //setTimeout komutu ile script komutlarımızı belirli bür süre bekletip çalıştırabiliriz..
+            //setTimeout(function () { javasciptyKomutlarımız }, nezamancalisacak);
             setTimeout(function () {
-
                 $("#dvPage").slideDown();
-            }, 100);
-
+            }, 1000);
 
             $("#BlogYazilarim").click(function () {
                 $("#MyPanel").animate({ right: "0px" });
@@ -196,20 +179,19 @@
 
             $("#Kulakcik").click(function () {
 
-                console.log("tıklandı....");
-                /*$("#MyPanel").css("right", "0px");*/
+                //console.log("tıklandı...");
+                //$("#MyPanel").css("right", "0px");
+                // animate fonksiyonu stilleri animasyonlu uygulamak için kullanılır...
                 $("#MyPanel").animate({ right: "0px" });
             });
+
             $("#MenuClose").click(function () {
                 $("#MyPanel").animate({ right: "-200px" });
             });
-
         });
-
-        
-
     </script>
 
 </body>
 </html>
+
 

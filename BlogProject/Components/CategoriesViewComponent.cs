@@ -14,11 +14,16 @@ namespace BlogProject.Components
         {
             blogDbContext = db;
         }
+
+        // Componentlerin dönecekleri viewları;
+        // Views/Shared/Component/ComponentAdınız/Default.cshtml
+        //olarak isimlerindiniz..
+
         public IViewComponentResult Invoke()
         {
             List<Category> katList = blogDbContext.Categories.ToList();
+            //ViewData["photoPath"] = filePicturePath;
             return View(katList);
-
         }
     }
 }

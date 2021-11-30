@@ -8,12 +8,13 @@ namespace BlogProject.Models.Entities
 {
     public class Category
     {
-
         public int ID { get; set; }
+
         [Required]
         public string Name { get; set; }
-        public string Description { get; set; }
-        public virtual List<Content> Content { get; set; }
 
+        public string Description { get; set; }
+
+        public virtual List<Content> Content { get; set; }
     }
 }

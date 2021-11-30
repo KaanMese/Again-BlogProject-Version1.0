@@ -2,22 +2,21 @@
 }
 
 
-#MyPanel {
-    
-    position:fixed; /* saydfada sabitliyoruz.*/
-    top:200px;
-    right:-210px;
-    width:240px;
 
+#MyPanel {
+    position:fixed; /* sayfada sabitliyoruz...*/
+    top:200px;
+    right:-200px;
+    width:250px;
 }
 
 #Kulakcik {
     background-color: #223142;
-    width: 40px;
+    width: 50px;
     height: 40px;
     margin-top:20px;
-    float:left;
-    cursor:pointer;
+    float: left;
+    cursor: pointer;
     color:white;
     font-weight:bold;
     text-align:center;
@@ -30,11 +29,14 @@
     float: left;
     padding-left:50px;
 }
+
 #Menu a{
     color:white;
 }
+
 #MenuClose {
     cursor: pointer;
     text-align: right;
-    padding-right:3px;
+    padding-right: 20px;
+    color: white;
 }

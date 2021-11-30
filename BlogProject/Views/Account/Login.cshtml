@@ -1,14 +1,15 @@
 ﻿@model AccountUserVM
+
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_AnonymousLayout.cshtml";
 }
 
-
-
+<!-- /.login-logo -->
 <div class="card">
     <div class="card-body login-card-body">
         <p class="login-box-msg">Oturum Aç</p>
+
 
         @if (ViewData["Mesaj"] != null)
         {
@@ -48,7 +49,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-4">
-                    <button type="submit" class="btn btn-primary btn-block">Giriş Yap..</button>
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -69,7 +70,7 @@
             <a href="forgot-password.html">I forgot my password</a>
         </p>
         <p class="mb-0">
-            <a asp-action="Register" asp-controller="Account" class="text-center">Yeni Hesap Oluştur.</a>
+            <a asp-action="Register" asp-controller="Account" class="text-center">Üye Ol</a>
         </p>
     </div>
     <!-- /.login-card-body -->
@@ -78,4 +79,3 @@
 @section ValidationScripts{
     @Html.Partial("_ValidationScriptsPartial")
 }
-

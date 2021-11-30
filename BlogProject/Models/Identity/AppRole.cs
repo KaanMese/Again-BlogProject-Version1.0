@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-// dosyada sağ tık yapıp Remove AND Sort Using seçeneği ile kullanılmayan namespacelari silebilirsiniz.
+
+// dosyada sağ tık yapıp Remove and Sort Usings seçeneği ile kullanılmayan namespaceleri silebilirsiniz.
+
 namespace BlogProject.Models.Identity
 {
-    public class AppRole :IdentityRole<int>
+    public class AppRole : IdentityRole<int>
     {
-
     }
 }

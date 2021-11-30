@@ -9,18 +9,19 @@ using BlogProject.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using BlogProject.Models.Identity;
 using Microsoft.AspNetCore.Identity;
+using System.Net.Mail;
+using System.Net;
 
 namespace BlogProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize] // sadece rolundekiler üyeler authorize olabilir
+    [Authorize] // Sadece üyeler autorize olabilir
     public class ContentsController : Controller
     {
         private readonly BlogDbContext _context;
 
         public UserManager<AppUser> _userManager;
-
-        public ContentsController(BlogDbContext context,UserManager<AppUser> userManager)
+        public ContentsController(BlogDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -62,31 +63,51 @@ namespace BlogProject.Areas.Admin.Controllers
         }
 
         // POST: Admin/Contents/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Text,CategoryID")] Content content)
+        public async Task<IActionResult> Create([Bind("ID,Title,ShortText,Text,CategoryID")] Content content)
         {
             if (ModelState.IsValid)
             {
+                // context sınıfı üzerinden kullanıcı bilgilerini çektikk..
+                //AppUser user = _context.Users.FirstOrDefault(c => c.UserName == User.Identity.Name);
 
-                // context sınıfı üzeri,nden kullanıcı bilgilerini çektik.
-                
-                //    AppUser user = _context.Users.FirstOrDefault(c => c.UserName == User.Identity.Name);
+                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+                content.UserID = user.Id;  // Contetin UserID alanına User'ın ID'sini set ediyoruz...
 
-                AppUser user =await _userManager.FindByNameAsync(User.Identity.Name);
-                content.UserID = user.Id; //content 'in UserId alanına user'ın Id sin, set ediyoruz.
-
+                content.CreDate = DateTime.Now;
                 _context.Add(content);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Email Gönder....
+                // Email gönderilecek kullanıcı listesini bul...
+                List<Subscribe> subs = _context.Subscribe.ToList(); // email listesi...
+                foreach (var item in subs)
+                {
+                    string icerik = "<h1>Fırından Taze çıktı</h1><br /> <a href='http://blogprojectbt.com/Posts/'> " + content.Title + " </a>";
+                    MailMessage message = new MailMessage("btblogproject1@gmail.com", item.EmailAdress, "Yeni İçerik", icerik);
+                    message.IsBodyHtml = true;
+
+                    // makaleleri listele..
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.EnableSsl = true;
+                        NetworkCredential NetworkCred = new NetworkCredential("btblogproject1@gmail.com", "bt1234bt");
+                        smtp.UseDefaultCredentials = true;
+                        smtp.Credentials = NetworkCred;
+                        smtp.Port = 587;
+                        smtp.Send(message);
+                    }
+                }
+
+                return RedirectToAction(nameof(Index)); // index actionına yönlendirmişş....
             }
-            //new SelectList(_context.Categories, "ID", "Name", content.CategoryID);
 
             ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name", content.CategoryID);
 
-            //ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", content.UserID);
             return View(content);
         }
 
@@ -109,11 +130,11 @@ namespace BlogProject.Areas.Admin.Controllers
         }
 
         // POST: Admin/Contents/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Text,CategoryID")] Content content)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,ShortText,Text,CategoryID")] Content content)
         {
             if (id != content.ID)
             {

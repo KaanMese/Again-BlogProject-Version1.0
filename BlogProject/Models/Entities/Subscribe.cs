@@ -7,12 +7,10 @@ namespace BlogProject.Models.Entities
 {
     public class Subscribe
     {
-
         public int ID { get; set; }
 
         public string EmailAdress { get; set; }
 
         public DateTime CreDate { get; set; }
-
     }
 }

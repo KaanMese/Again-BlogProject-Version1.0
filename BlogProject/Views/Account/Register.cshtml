@@ -1,23 +1,22 @@
 ﻿@model AccountUserVM;
+
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_AnonymousLayout.cshtml";
 }
 
-<div class="card">
+<div class="card card-info">
     <div class="card-body register-card-body">
-        <p class="login-box-msg">Yeni Üye Kaydı...</p>
+        <p class="login-box-msg">Kayıt Ol</p>
 
-        @if (ViewData["Mesaj"] !=null)
+
+        @if (ViewData["Mesaj"] != null)  // eğer viewdata geliyorsa...
         {
             <div class="alert alert-primary">
-                @ViewData["Mesaj"]
-                <br />
-                <a asp-action="Login" asp-controller="Account">Giriş Yapmak için Tıklayın</a>
-
+                @ViewData["Mesaj"] <!--view datayı yazdır...-->
+                <a asp-action="Login" asp-controller="Account">Giriş Yapmak İçin Tıklayınız...</a>
             </div>
         }
-
 
         <form asp-action="Register" asp-controller="Account" method="post">
             <span asp-validation-for="@Model.FullName" class="text-danger"></span>
@@ -38,6 +37,7 @@
                     </div>
                 </div>
             </div>
+
             <span asp-validation-for="@Model.Password" class="text-danger"></span>
             <div class="input-group mb-3">
                 <input asp-for="@Model.Password" type="password" class="form-control" placeholder="Password">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-8">
                     <div class="icheck-primary">
@@ -86,13 +86,11 @@
             </a>
         </div>
 
-        <a asp-action="Login" asp-controller="Account" class="text-center">Zaten  Hesabım VAR ...</a>
+        <a asp-action="Login" asp-controller="Account" class="text-center">I already have a membership</a>
     </div>
     <!-- /.form-box -->
 </div><!-- /.card -->
 
-
 @section ValidationScripts{
     @Html.Partial("_ValidationScriptsPartial")
 }
-

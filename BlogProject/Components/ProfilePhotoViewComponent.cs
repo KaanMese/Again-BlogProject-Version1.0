@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace BlogProject.Components
 {
-    public class ProfilePhotoViewComponent: ViewComponent
+    public class ProfilePhotoViewComponent : ViewComponent
     {
         BlogDbContext blogDbContext;
         public ProfilePhotoViewComponent(BlogDbContext db)
         {
             blogDbContext = db;
         }
+
+        // Componentlerin dönecekleri viewları;
+        // Views/Shared/Component/ComponentAdınız/Default.cshtml
+        //olarak isimlerindiniz..
+
         public IViewComponentResult Invoke()
         {
             string filePicturePath = "/assets/images/profile.png";
@@ -21,15 +26,13 @@ namespace BlogProject.Components
             if (User.Identity.IsAuthenticated)
             {
                 var user = blogDbContext.Users.FirstOrDefault(c => c.Email == User.Identity.Name);
-                if (user.PicturePath != null)
+                if (user.PicturePath != null) // profil resmi yüklediyse....
                 {
-                    filePicturePath = "/UploadProfilePicture/" + user.PicturePath;
+                    filePicturePath = "UploadProfilePicture/" + user.PicturePath;
                 }
             }
-            ViewData["photoPath"] = filePicturePath;
+            //ViewData["photoPath"] = filePicturePath;
             return View<string>(filePicturePath);
-            
         }
-
     }
 }

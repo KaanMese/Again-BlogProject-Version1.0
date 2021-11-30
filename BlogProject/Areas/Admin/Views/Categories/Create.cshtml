@@ -5,22 +5,24 @@
 }
 
 
+
 <div class="row">
     <div class="col-md-12">
-     
+
 
         <form asp-action="Create">
             <div class="card card-primary">
 
-                <div>
+                <div class="card-header">
                     Kategori Ekle
                 </div>
 
                 <div class="card-body">
+
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" autocomplete="off"/>
+                        <input asp-for="Name" class="form-control" autocomplete="off" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -28,6 +30,7 @@
                         <textarea asp-for="Description" class="form-control"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
+
                 </div>
 
                 <div class="card-footer">
@@ -38,6 +41,8 @@
 
             </div>
 
+
+
         </form>
     </div>
 </div>
@@ -46,15 +51,13 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@*Layouta section gönderilir ....Gönderilen section layout page'de  render edilir..
+    Yani layotu kullanan viewdan Layout'a veri(içerik) göndermek için kullanılır
+*@
 
-
-@*Layouta section gönderilir .. Gönderilen section layout page'de render edilir... 
-    Yani layout kullanan viewdan Layout'a veri(içerik) göndermek için kullanılır..
-    *@ 
-
-@*@section MySection{ 
-    <h1> ben  bir kategori ekleme sayfasıyım</h1>
-}*@
+@*@section MySection{
+        <h1> ben kategor ekleme sayfasıyım....</h1>
+    }*@
 
 
 @section Scripts {

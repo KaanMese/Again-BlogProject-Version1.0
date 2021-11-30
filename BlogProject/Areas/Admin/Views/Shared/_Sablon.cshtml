@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Blank Page</title>
+    <title>Admin Panel | Home</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -155,9 +155,9 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="#" class="brand-link">
+            <a href="../../index3.html" class="brand-link">
                 <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Admin Port</span>
+                <span class="brand-text font-weight-light">Admin Panel</span>
             </a>
 
             <!-- Sidebar -->
@@ -165,10 +165,10 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="/dist/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+                        <img src="/dist/img/Kaan.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Kaan Berat Meşe</a>
+                        <a href="#" class="d-block">Kaan Meşe</a>
                     </div>
                 </div>
 
@@ -213,18 +213,18 @@
                                 <li class="nav-item">
                                     <a asp-action="Index" asp-controller="Comments" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Yorum Yönetimi</p>
+                                        <p>Yorum Yönetim</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="../../index3.html" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Kullanıcıdan Gelenler</p>
+                                        <p>Kullanıcılardan Gelenler</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                       
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -239,12 +239,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Admin Sayfası</h1>
+                            @*<h1>Blank Page</h1>*@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
-                                <li class="breadcrumb-item active">Admin First Page</li>
+                                @*<li class="breadcrumb-item active">Blank Page</li>*@
                             </ol>
                         </div>
                     </div>
@@ -252,23 +252,29 @@
             </section>
 
 
+
+
             <!-- Main content -->
             <section class="content">
 
                 <div>
-                    @*@if (IsSectionDefined("MySection")) // alt sayfada section tanımlıysa
-                    {
-                             @RenderSection("MySection") // section'a render et..
-                    }*@
 
+
+                    @*@if (IsSectionDefined("mySection")) // alt sayfada section tanımlıysa,
+                        {
+                            @RenderSection("mySection")// section'ı render et...
+                        }*@
 
                 </div>
 
                 @RenderBody()
 
-                 
+
+
             </section>
             <!-- /.content -->
+
+
         </div>
         <!-- /.content-wrapper -->
 
@@ -287,6 +293,7 @@
     </div>
     <!-- ./wrapper -->
     <!-- jQuery -->
+
     <script src="/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -295,12 +302,11 @@
     <!-- AdminLTE for demo purposes -->
     <script src="/dist/js/demo.js"></script>
 
-    @if (IsSectionDefined("Scripts"))
+    @if (IsSectionDefined("scripts"))
     {
-        @RenderSection("Scripts")
+        @RenderSection("scripts")
     }
+
 
 </body>
 </html>
-
-

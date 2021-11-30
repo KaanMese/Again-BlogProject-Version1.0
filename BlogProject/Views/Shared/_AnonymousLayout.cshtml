@@ -1,8 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,12 +20,10 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a asp-action="Index" asp-controller="Home"><b>MyBlog</b></a>
+            <a asp-action="Index" asp-controller="Home"><b>MYBLOG</b></a>
         </div>
-            @RenderBody()
-        </div>
-
-
+        @RenderBody()  
+    </div>
     <!-- /.login-box -->
     <!-- jQuery -->
     <script src="/plugins/jquery/jquery.min.js"></script>
@@ -41,10 +37,5 @@
         @RenderSection("ValidationScripts")
     }
 
-    @*çok önemli bir olay yukarıdaki kodlar*@ 
-
 </body>
 </html>
-
-
-

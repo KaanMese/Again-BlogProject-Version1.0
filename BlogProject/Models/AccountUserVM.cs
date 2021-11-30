@@ -5,22 +5,26 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlogProject.Models
-{ // view'a göre model oluşturduk.
+{
+    // View'a göre model oluşturduk...
     public class AccountUserVM
     {
         [Required]
-        [Display(Name ="Ad Soyad")]
+        [Display(Name = "Adı SoyAd")]
         public string FullName { get; set; }
+
         [Required]
-        [Display(Name ="Email Adresiniz")]
-        [EmailAddress(ErrorMessage ="Geçersiz Email Formatı")] // email formunda olmalıdır..
+        [Display(Name = "Email Adresiniz")]
+        [EmailAddress(ErrorMessage = "Geçersiz Email Formatı...")] // Email formatında olmalıdır..
         public string Email { get; set; }
+
         [Required]
-        [Display(Name ="Şifreniz")]
+        [Display(Name = "Şifreniz")]
         public string Password { get; set; }
+
         [Required]
-        [Display(Name ="Şifre Tekrarınız")]
-        [Compare("Password",ErrorMessage ="Şifreler Aynı Değil !!")] // compare bir validationdır. Bu property değerini belirtdiğimiz diğer property değeri ile belirleriz.
+        [Display(Name = "Şifre Tekrarınız")]
+        [Compare("Password", ErrorMessage = "Şifreler Aynı Değil")] // Compare bir validationdır. Bu property'nin değerini belirttiğiniz diğer property değeri ile karşılaştırır..
         public string Password2 { get; set; }
     }
 }

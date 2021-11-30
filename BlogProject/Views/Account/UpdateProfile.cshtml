@@ -1,11 +1,16 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Profil Bilgilerimi Güncelle";
 }
 
-<h1>Hoşlgeldin @User.Identity.Name</h1>
+<h1>Hoş geldin @User.Identity.Name</h1>
+
+<!--
+    server'a formdan dosya göndermek için formun enctype attributesinin değerini  multipart/form-data olarak vermelisiniz...
+    -->
 
 <form asp-action="UpdatePhoto" asp-controller="Account" method="post" enctype="multipart/form-data">
-    <input type="file" name="File" /> <!--formadan veri göndermek için kullanılır-->
-    <input type="submit" value="Profil Foto Güncelle"/>
+
+    <input type="file" name="File" /> <!--formdan veri göndermek için kullanılır...-->
+    <input type="submit" value="Profil Foto Güncelle" />
+
 </form>
